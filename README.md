@@ -53,7 +53,7 @@ Also it’s possible to generate user password during image build, by using `GEN
 docker build -t aeron/socks5-dante-proxy --build-arg GEN=true .
 ```
 
-### Start a Containter
+### Start a Container
 
 Just run it, like the following:
 
