@@ -5,8 +5,7 @@ COPY etc/passwd /etc/shadow
 COPY etc/group /etc/group
 
 ARG REPO=http://dl-3.alpinelinux.org/alpine/edge/testing/
-
-RUN apk add --no-cache --update -X ${REPO} \
+RUN apk add --no-cache -X ${REPO} \
     dante-server openssl curl
 
 ENV WORKERS 4
@@ -19,7 +18,7 @@ ARG USER=socks
 ARG GEN=false
 
 RUN adduser -SDH ${USER}
-RUN [ ${GEN} = true ] && ./generate.sh || exit 0
+RUN [ ${GEN} = false ] || ./generate.sh
 
 VOLUME /etc
 EXPOSE 1080
