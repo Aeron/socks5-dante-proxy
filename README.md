@@ -80,3 +80,7 @@ curl --socks5 username:password@host:1080 -L http://ifconfig.me
 ```
 
 The result must be different from current host’s IP address.
+
+## IPv6 Support
+
+Docker has IPv6 support out-of-the-box, but it needs to be enabled manually in daemon configuration and a network created afterward. More on this in the official [Docker documentation](https://docs.docker.com/config/daemon/ipv6/).
