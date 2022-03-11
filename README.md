@@ -1,8 +1,10 @@
-# SOCKS5 Dante Proxy @ Docker
+# SOCKS5 Dante Proxy Docker Image
 
-An easy way to deploy [Dante](https://www.inet.no/dante/)-based SOCKS5 proxy on own server using Docker.
+A compact [Dante](https://www.inet.no/dante/) SOCKS5 proxy Docker image based on
+[`bitnami/minideb`](https://hub.docker.com/r/bitnami/minideb) base image.
 
-> Sometimes we all need a way to keep using our favorite apps, even if some unreliable group of people dictates us not to.
+> Sometimes we all need a way to keep using our favorite apps, even if some unreliable
+> group of people dictates us not to.
 
 ## Quick Start
 
@@ -21,36 +23,16 @@ docker run -it --rm --volumes-from dante aeron/socks5-dante-proxy /generate.sh
 
 ## Usage
 
-### Get an Image
-
-An image can be pulled from a [registry](https://hub.docker.com/r/aeron/socks5-dante-proxy/) or, in case you have a reason to do so, built manually.
-
-#### Pull an Image
-
-**This action is optional**, since [the first run](#start-a-container) will perform it automatically.
+This image is available as
+[`aeron/socks5-dante-proxy`](https://hub.docker.com/r/aeron/socks5-dante-proxy)
+from Docker Hub and
+[`ghcr.io/Aeron/socks5-dante-proxy`](https://github.com/Aeron/socks5-dante-proxy/pkgs/container/mongosh)
+from GitHub Container Registry. You can use them both interchangeably.
 
 ```sh
 docker pull aeron/socks5-dante-proxy
-```
-
-#### Build an Image
-
-Build it, like usually:
-
-```sh
-docker build -t aeron/socks5-dante-proxy .
-```
-
-To alter username, simply use build argument `USER`:
-
-```sh
-docker build -t aeron/socks5-dante-proxy --build-arg USER=poogie .
-```
-
-Also it’s possible to generate user password during image build, by using `GEN` argument:
-
-```sh
-docker build -t aeron/socks5-dante-proxy --build-arg GEN=true .
+# …or…
+docker pull ghcr.io/aeron/socks5-dante-proxy
 ```
 
 ### Start a Container
@@ -63,7 +45,7 @@ docker run -d --restart always --name dante -p 1080:1080 aeron/socks5-dante-prox
 
 ### Generate a Password
 
-To be able to authenticate on a running proxy, it’s necessary to generate user password. In case it wasn’t made already during image build.
+To be able to authenticate on a running proxy, it’s necessary to generate user password.
 
 ```sh
 docker run -it --rm --volumes-from dante aeron/socks5-dante-proxy /generate.sh
@@ -81,6 +63,17 @@ curl --socks5 username:password@host:1080 -L http://ifconfig.me
 
 The result must be different from current host’s IP address.
 
+### Use a Custom User Name
+
+In case you need a different user name, it’s still possible to build the image with
+`USER` build argument:
+
+```sh
+docker build -t aeron/socks5-dante-proxy --build-arg USER=poogie .
+```
+
 ## IPv6 Support
 
-Docker has IPv6 support out-of-the-box, but it needs to be enabled manually in daemon configuration and a network created afterward. More on this in the official [Docker documentation](https://docs.docker.com/config/daemon/ipv6/).
+Docker has IPv6 support out-of-the-box, but it needs to be enabled manually in daemon
+configuration and a network created afterward. More on this in the official
+[Docker documentation](https://docs.docker.com/config/daemon/ipv6/).

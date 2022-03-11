@@ -5,5 +5,14 @@ HOST=$(curl -s http://whatismyip.akamai.com/)
 
 echo "$USER:$PASS" | chpasswd
 
-echo -e "\033[0;36mServer: $HOST:1080\nUsername: $USER\nPassword: $PASS\033[0m"
-echo -e "\033[0;33mTest it using the following:\ncurl --socks5 $USER:$PASS@$HOST:1080 -L http://ifconfig.me\033[0m"
+echo -n "\033[0;36m"
+echo "Server: $HOST:1080"
+echo "Username: $USER"
+echo "Password: $PASS"
+echo -n "\033[0m"
+
+echo -n "\033[0;33m"
+echo "Test it using the following:"
+echo "curl --socks5 $USER:$PASS@$HOST:1080 \\"
+echo "    -L http://ifconfig.me"
+echo -n "\033[0m"

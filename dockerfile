@@ -1,26 +1,28 @@
-FROM alpine
+FROM bitnami/minideb:bullseye
+
+LABEL org.opencontainers.image.source https://github.com/Aeron/socks5-dante-proxy
+LABEL org.opencontainers.image.licenses MIT
+
+RUN install_packages \
+    dante-server \
+    openssl \
+    curl
+
+ARG USER=socks
+
+ENV WORKERS 4
+ENV CONFIG /etc/sockd.conf
 
 COPY etc/passwd /etc/passwd
 COPY etc/passwd /etc/shadow
 COPY etc/group /etc/group
 
-ARG REPO=http://dl-3.alpinelinux.org/alpine/edge/testing/
-RUN apk add --no-cache -X ${REPO} \
-    dante-server openssl curl
-
-ENV WORKERS 4
-ENV CONFIG /etc/sockd.conf
-
 COPY dante.conf ${CONFIG}
 COPY generate.sh .
 
-ARG USER=socks
-ARG GEN=false
-
-RUN adduser -SDH ${USER}
-RUN [ ${GEN} = false ] || ./generate.sh
+RUN adduser --system --no-create-home ${USER}
 
 VOLUME /etc
 EXPOSE 1080
 
-CMD sockd -N ${WORKERS} -f ${CONFIG}
+CMD danted -N ${WORKERS} -f ${CONFIG}
