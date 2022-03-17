@@ -30,7 +30,7 @@ docker run -it --rm --volumes-from dante \
 This image is available as
 [`aeron/socks5-dante-proxy`](https://hub.docker.com/r/aeron/socks5-dante-proxy)
 from Docker Hub and
-[`ghcr.io/Aeron/socks5-dante-proxy`](https://github.com/Aeron/socks5-dante-proxy/pkgs/container/mongosh)
+[`ghcr.io/Aeron/socks5-dante-proxy`](https://github.com/Aeron/socks5-dante-proxy/pkgs/container/socks5-dante-proxy)
 from GitHub Container Registry. You can use them both interchangeably.
 
 ```sh
