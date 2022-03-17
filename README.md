@@ -15,10 +15,14 @@ Simple as that:
 docker pull aeron/socks5-dante-proxy
 
 # Run
-docker run -d --restart always --name dante -p 1080:1080 aeron/socks5-dante-proxy
+docker run -d --restart always --name dante \
+    -p 1080:1080 \
+    aeron/socks5-dante-proxy
 
 # Generate
-docker run -it --rm --volumes-from dante aeron/socks5-dante-proxy /generate.sh
+docker run -it --rm --volumes-from dante \
+    aeron/socks5-dante-proxy \
+    /generate.sh
 ```
 
 ## Usage
@@ -40,7 +44,9 @@ docker pull ghcr.io/aeron/socks5-dante-proxy
 Just run it, like the following:
 
 ```sh
-docker run -d --restart always --name dante -p 1080:1080 aeron/socks5-dante-proxy
+docker run -d --restart always --name dante \
+    -p 1080:1080 \
+    aeron/socks5-dante-proxy:latest
 ```
 
 ### Generate a Password
@@ -48,7 +54,9 @@ docker run -d --restart always --name dante -p 1080:1080 aeron/socks5-dante-prox
 To be able to authenticate on a running proxy, it’s necessary to generate user password.
 
 ```sh
-docker run -it --rm --volumes-from dante aeron/socks5-dante-proxy /generate.sh
+docker run -it --rm --volumes-from dante \
+    aeron/socks5-dante-proxy:latest \
+    /generate.sh
 ```
 
 This script can be used any time password change required.
