@@ -53,6 +53,8 @@ docker run -it --rm --volumes-from dante aeron/socks5-dante-proxy /generate.sh
 
 This script can be used any time password change required.
 
+Optionally, it’s possible to save/restore a password by mounting the `/etc/shadow` file.
+
 ### Verify a Proxy
 
 To verify everything works correctly, use the following:
