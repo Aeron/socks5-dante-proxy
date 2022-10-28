@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: recase
-        uses: ASzc/change-string-case-action@v3
+        uses: ASzc/change-string-case-action@v4
         with:
           string: ${{ env.GITHUB_REGISTRY_IMAGE }}
       - name: Set up QEMU
