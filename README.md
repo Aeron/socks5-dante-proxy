@@ -1,89 +1,117 @@
-# SOCKS5 Dante Proxy Docker Image
+# SOCKS5 Dante Proxy Container Image
 
-A compact [Dante](https://www.inet.no/dante/) SOCKS5 proxy Docker image based on
+A compact [Dante](https://www.inet.no/dante/) SOCKS5 proxy container image based on
 [`bitnami/minideb`](https://hub.docker.com/r/bitnami/minideb) base image.
 
-> Sometimes we all need a way to keep using our favorite apps, even if some unreliable
+> Sometimes, we all need a way to keep using our favorite apps, even if some unreliable
 > group of people dictates us not to.
-
-## Quick Start
-
-Simple as that:
-
-```sh
-# Pull (optional)
-docker pull aeron/socks5-dante-proxy
-
-# Run
-docker run -d --restart always --name dante \
-    -p 1080:1080 \
-    aeron/socks5-dante-proxy
-
-# Generate
-docker run -it --rm --volumes-from dante \
-    aeron/socks5-dante-proxy \
-    /generate.sh
-```
 
 ## Usage
 
-This image is available as
-[`aeron/socks5-dante-proxy`](https://hub.docker.com/r/aeron/socks5-dante-proxy)
-from Docker Hub and
-[`ghcr.io/Aeron/socks5-dante-proxy`](https://github.com/Aeron/socks5-dante-proxy/pkgs/container/socks5-dante-proxy)
-from GitHub Container Registry. You can use them both interchangeably.
+The container image is available as [`docker.io/aeron/socks5-dante-docker`][docker] and
+[`ghcr.io/Aeron/socks5-dante-docker`][github]. You can use both interchangeably.
 
 ```sh
-docker pull aeron/socks5-dante-proxy
+docker pull docker.io/aeron/socks5-dante-docker
 # …or…
-docker pull ghcr.io/aeron/socks5-dante-proxy
+docker pull ghcr.io/aeron/socks5-dante-docker
 ```
 
-### Start a Container
+[docker]: https://hub.docker.com/r/aeron/socks5-dante-docker
+[github]: https://github.com/Aeron/socks5-dante-proxy/pkgs/container/socks5-dante-proxy
 
-Just run it, like the following:
+### Container Running
+
+Running a container is pretty straightforward:
 
 ```sh
-docker run -d --restart always --name dante \
-    -p 1080:1080 \
-    aeron/socks5-dante-proxy:latest
+docker -d --restart unless-stopped --name dante \
+    -p 1080/1080:tcp \
+    -e WORKERS=4 \
+    -e CONFIG=/etc/sockd.conf \
+    docker.io/aeron/socks5-dante-docker:latest
 ```
 
-### Generate a Password
+By default, the number of simultaneous workers (the `WORKERS` environment variable)
+is `4`. Adjust it to host CPU capabilities if necessary.
 
-To be able to authenticate on a running proxy, it’s necessary to generate user password.
+In the case of a custom configuration file, use the `CONFIG` variable to specify a path.
+By default, it is always the `/etc/sockd.conf` (a symbolic link to the `/srv/dante.conf`
+).
+
+But you’ll need to [add a new user](#user-management) first.
+
+### Entrypoint Options
+
+The entry point script supports the following commands and parameters:
+
+```text
+Usage: /entrypoint.sh [COMMAND [PARAMS..]]
+
+Commands:
+    add-user NAME [PASS]    Add a new user
+    del-user NAME           Delete an existing user
+    start                   Start the dante server
+                            [container command]
+
+Parameters:
+    NAME                    A username
+                            [default: "socks"]
+```
+
+### User Management
+
+To authenticate on a running proxy, you must add a user:
 
 ```sh
 docker run -it --rm --volumes-from dante \
     aeron/socks5-dante-proxy:latest \
-    /generate.sh
+    add-user [NAME [PASS]]
+# or
+docker exec -it dante /srv/entrypoint.sh add-user [NAME [PASS]]
 ```
 
-This script can be used any time password change required.
+The `NAME` parameter is always optional, so you can omit it and use the default one.
+But if the `PASS` is empty, the script will generate a new password.
 
-Optionally, it’s possible to save/restore a password by mounting the `/etc/shadow` file.
-
-### Verify a Proxy
-
-To verify everything works correctly, use the following:
+To delete a user, use an appropriate command:
 
 ```sh
-curl --socks5 username:password@host:1080 -L http://ifconfig.me
+docker run -it --rm --volumes-from dante \
+    aeron/socks5-dante-proxy:latest \
+    del-user [NAME]
+# or
+docker exec -it dante /srv/entrypoint.sh del-user [NAME]
 ```
 
-The result must be different from current host’s IP address.
+### Data Persistency
 
-### Use a Custom User Name
-
-In case you need a different user name, it’s still possible to build the image with
-`USER` build argument:
+To save or restore existing users, mount `/etc/passwd` and `/etc/shadow` files:
 
 ```sh
-docker build -t aeron/socks5-dante-proxy --build-arg USER=poogie .
+docker -d --restart unless-stopped --name dante \
+    -p 1080/1080:tcp \
+    -v /path/to/passwd:/etc/passwd:rw \
+    -v /path/to/shadow:/etc/shadow:rw \
+    docker.io/aeron/socks5-dante-docker:latest
 ```
+
+Replace the `/path/to/passwd` and `/path/to/shadow` with preferred file paths.
+
+### Proxy Verification
+
+To verify that everything works correctly, use the following:
+
+```sh
+curl --socks5 username:password@host:1080 -L http://ifconfig.co
+```
+
+The result must be different from your current IP address.
 
 ## IPv6 Support
 
 Docker has IPv6 support out-of-the-box, but it needs to be enabled manually in daemon
-configuration and a network created afterward. More on this in the official
-[Docker documentation](https://docs.docker.com/config/daemon/ipv6/).
+configuration and a network created afterward.  You can learn more about this in the
+official [Docker documentation][ipv6-docs].
+
+[ipv6-docs]: https://docs.docker.com/config/daemon/ipv6/
