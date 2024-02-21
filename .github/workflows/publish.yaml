@@ -54,3 +54,10 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           tags: ${{ steps.build-image.outputs.tags }}
+      - name: Update Docker Hub description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: aeron/socks5-dante-proxy
+        continue-on-error: true
