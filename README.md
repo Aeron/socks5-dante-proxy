@@ -25,7 +25,7 @@ docker pull ghcr.io/aeron/socks5-dante-docker
 Running a container is pretty straightforward:
 
 ```sh
-docker -d --restart unless-stopped --name dante \
+docker run -d --restart unless-stopped --name dante \
     -p 1080/1080:tcp \
     -e WORKERS=4 \
     -e CONFIG=/etc/sockd.conf \
@@ -89,7 +89,7 @@ docker exec -it dante /srv/entrypoint.sh del-user [NAME]
 To save or restore existing users, mount `/etc/passwd` and `/etc/shadow` files:
 
 ```sh
-docker -d --restart unless-stopped --name dante \
+docker run -d --restart unless-stopped --name dante \
     -p 1080/1080:tcp \
     -v /path/to/passwd:/etc/passwd:rw \
     -v /path/to/shadow:/etc/shadow:rw \
