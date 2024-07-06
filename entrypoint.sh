@@ -4,13 +4,9 @@ _strip_name() {
     echo "$1" | tr '@&+.:' '-' | tr -d '=!%^#$\/()[]{}|;<>, ' | xargs
 }
 
-original_name="$2"
-stripped_name="$(_strip_name "$2")"
-password="$3"
-
-set -- "$1" "$stripped_name" "$password"
+set -- "$1" "$(_strip_name "$2")" "$3"
 if [ -z "$2" ]; then
-    set -- "$1" 'socks' "$password"
+    set -- "$1" 'socks' "$3"
 fi
 
 # shellcheck disable=SC2016
