@@ -25,7 +25,7 @@ jobs:
         with:
           string: ${{ env.GITHUB_REGISTRY_IMAGE }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.3.0
+        uses: docker/setup-qemu-action@v3.4.0
       - name: Build Image
         id: build-image
         uses: redhat-actions/buildah-build@v2
