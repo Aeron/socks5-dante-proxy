@@ -49,7 +49,7 @@ case "$1" in
         deluser --quiet --system "$2" 2> /dev/null
         ;;
     'start')
-        danted -N "$WORKERS" -f "$CONFIG"
+        sockd -N "$WORKERS" -f "$CONFIG"
         ;;
     *)
         echo "$HELP"
