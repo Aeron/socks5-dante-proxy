@@ -12,9 +12,9 @@ The container image is available as [`docker.io/aeron/socks5-dante-docker`][dock
 [`ghcr.io/Aeron/socks5-dante-docker`][github]. You can use both interchangeably.
 
 ```sh
-docker pull docker.io/aeron/socks5-dante-proxy
+docker pull docker.io/aeron/socks5-dante-docker
 # …or…
-docker pull ghcr.io/aeron/socks5-dante-proxy
+docker pull ghcr.io/aeron/socks5-dante-docker
 ```
 
 [docker]: https://hub.docker.com/r/aeron/socks5-dante-docker
@@ -29,7 +29,7 @@ docker run -d --restart unless-stopped --name dante \
     -p 1080/1080:tcp \
     -e WORKERS=4 \
     -e CONFIG=/etc/sockd.conf \
-    docker.io/aeron/socks5-dante-docker:latest
+    docker.io/aeron/socks5-dante-proxy:latest
 ```
 
 By default, the number of simultaneous workers (the `WORKERS` environment variable)
@@ -93,7 +93,7 @@ docker run -d --restart unless-stopped --name dante \
     -p 1080/1080:tcp \
     -v /path/to/passwd:/etc/passwd:rw \
     -v /path/to/shadow:/etc/shadow:rw \
-    docker.io/aeron/socks5-dante-docker:latest
+    docker.io/aeron/socks5-dante-proxy:latest
 ```
 
 Replace the `/path/to/passwd` and `/path/to/shadow` with preferred file paths.
