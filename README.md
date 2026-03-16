@@ -8,16 +8,16 @@ A compact [Dante](https://www.inet.no/dante/) SOCKS5 proxy container image based
 
 ## Usage
 
-The container image is available as [`docker.io/aeron/socks5-dante-docker`][docker] and
-[`ghcr.io/Aeron/socks5-dante-docker`][github]. You can use both interchangeably.
+The container image is available as [`docker.io/aeron/socks5-dante-proxy`][docker] and
+[`ghcr.io/aeron/socks5-dante-proxy`][github]. You can use both interchangeably.
 
 ```sh
-docker pull docker.io/aeron/socks5-dante-docker
+docker pull docker.io/aeron/socks5-dante-proxy
 # …or…
-docker pull ghcr.io/aeron/socks5-dante-docker
+docker pull ghcr.io/aeron/socks5-dante-proxy
 ```
 
-[docker]: https://hub.docker.com/r/aeron/socks5-dante-docker
+[docker]: https://hub.docker.com/repository/docker/aeron/socks5-dante-proxy
 [github]: https://github.com/Aeron/socks5-dante-proxy/pkgs/container/socks5-dante-proxy
 
 ### Container Running
